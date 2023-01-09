@@ -18,15 +18,9 @@ spec:
   template:
     metadata:
       annotations:
-        apps.tanzu.vmware.com/debug: "true"
-        apps.tanzu.vmware.com/live-update: "true"
-        autoscaling.knative.dev/maxScale: "1"
-        autoscaling.knative.dev/minScale: "1"
         boot.spring.io/actuator: http://:8081/actuator
         boot.spring.io/version: 2.7.4
         conventions.carto.run/applied-conventions: |-
-          developer-conventions/debug-convention
-          developer-conventions/add-source-image-label
           spring-boot-convention/spring-boot
           spring-boot-convention/spring-boot-graceful-shutdown
           spring-boot-convention/spring-boot-web
@@ -36,7 +30,6 @@ spec:
           appliveview-sample/app-live-view-connector-boot
           appliveview-sample/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-systemproperties
-        developer.apps.tanzu.vmware.com/image-source-digest: main/25e5e84943f57de7c6178ff9c9585763da327ada
         developer.conventions/target-containers: workload
         kapp.k14s.io/identity: v1;default/carto.run/Workload/tanzu-java-web-app;carto.run/v1alpha1
         kapp.k14s.io/original: '{"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"labels":{"app.kubernetes.io/part-of":"tanzu-java-web-app","apps.tanzu.vmware.com/has-tests":"true","apps.tanzu.vmware.com/workload-type":"web","carto.run/workload-name":"tanzu-java-web-app","carto.run/workload-namespace":"default","kapp.k14s.io/app":"1673159779523618139","kapp.k14s.io/association":"v1.85504f8effd37e284da70ccfa30e7685"},"name":"tanzu-java-web-app","namespace":"default"},"spec":{"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/pedersenju/java-web-app"}}}}'
@@ -58,10 +51,6 @@ spec:
     spec:
       containers:
       - env:
-        - name: BPL_DEBUG_ENABLED
-          value: "true"
-        - name: BPL_DEBUG_PORT
-          value: "9005"
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
         image: dev.registry.pivotal.io/se-americas-west/zmax-sc/tanzu-java-web-app-default@sha256:029a6498ba4b00349be2ddcb41934e3233b694f46051b0160dd4ae914bb3f60b
